@@ -1,0 +1,111 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3339525 */
+  src: url('iconfont.woff2?t=1651221876270') format('woff2'),
+       url('iconfont.woff?t=1651221876270') format('woff'),
+       url('iconfont.ttf?t=1651221876270') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.iconfont-rili:before {
+  content: "\e600";
+}
+
+.iconfont-PCbofangye_paihangbang:before {
+  content: "\e643";
+}
+
+.iconfont-gedan:before {
+  content: "\e78a";
+}
+
+.iconfont-shouyinji:before {
+  content: "\e747";
+}
+
+.iconfont-mv:before {
+  content: "\e833";
+}
+
+.iconfont-shangyishouweidianji:before {
+  content: "\e727";
+}
+
+.iconfont-xiayishouweidianji:before {
+  content: "\e728";
+}
+
+.iconfont-shunxubofang:before {
+  content: "\e6ba";
+}
+
+.iconfont-danquxunhuan:before {
+  content: "\e612";
+}
+
+.iconfont-ziyuan:before {
+  content: "\e637";
+}
+
+.iconfont-bofangzhong:before {
+  content: "\e6be";
+}
+
+.iconfont-yinle2:before {
+  content: "\e675";
+}
+
+.iconfont-xingxing:before {
+  content: "\e642";
+}
+
+.iconfont-iocn_yigoumaide:before {
+  content: "\e617";
+}
+
+.iconfont-yinle-:before {
+  content: "\e608";
+}
+
+.iconfont-renqun:before {
+  content: "\e609";
+}
+
+.iconfont-24gf-musicAlbum:before {
+  content: "\ea0f";
+}
+
+.iconfont-24gf-playCircle:before {
+  content: "\ea82";
+}
+
+.iconfont-huiyunpan:before {
+  content: "\e6d8";
+}
+
+.iconfont-ren3:before {
+  content: "\e623";
+}
+
+.iconfont-tubiaozhizuomobanyihuifu-:before {
+  content: "\e69a";
+}
+
+.iconfont-yinle1:before {
+  content: "\e687";
+}
+
+.iconfont-zimu-M:before {
+  content: "\e660";
+}
+
+.iconfont-yinle:before {
+  content: "\e63b";
+}
+
