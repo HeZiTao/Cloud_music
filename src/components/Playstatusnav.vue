@@ -320,16 +320,12 @@ export default {
         .then((result) => {
           // status请求成功
           if (result.status == 200) {
-            
             this.nowPlaySongMsg = result.data.songs[0];
             this.isShow = true;
           } else {
-            
           }
         })
-        .catch((err) => {
-          
-        });
+        .catch((err) => {});
     },
     // 获取歌词
     getLyric() {
@@ -347,12 +343,9 @@ export default {
             this.lyricText = result.data.lrc.lyric;
             this.disposeLyric();
           } else {
-            
           }
         })
-        .catch((err) => {
-          
-        });
+        .catch((err) => {});
     },
     // 处理歌词
     disposeLyric() {
@@ -383,7 +376,6 @@ export default {
       });
 
       this.lyricArray = lyricArray;
-      
     },
     // 播放歌词
     playLyric(nowTime) {
@@ -439,12 +431,9 @@ export default {
               Toast("已移除喜欢");
             }
           } else {
-            
           }
         })
-        .catch((err) => {
-          
-        });
+        .catch((err) => {});
     },
     // 获取喜欢音乐列表
     likeSongList() {
@@ -473,12 +462,9 @@ export default {
               this.isLike = false;
             }
           } else {
-            
           }
         })
-        .catch((err) => {
-          
-        });
+        .catch((err) => {});
     },
     // 播放暂停
     isPlayBtn() {
@@ -559,7 +545,7 @@ export default {
     nextSong() {
       // 获取时间戳
       let timestamp = Date.now();
-      
+
       this.setNextPlay({ nextPlay: timestamp });
     },
     // 上一首
@@ -590,9 +576,19 @@ export default {
     // 显示歌词
     showLyric() {
       this.isLyric = !this.isLyric;
+      if (!this.isLyric) {
+        this.$nextTick(() => {
+          let songRound = this.$refs.songRound;
+          if (this.isPlaySong) {
+            songRound.style.animationPlayState = "running";
+          } else {
+            songRound.style.animationPlayState = "paused";
+          }
+        });
+      }
       setTimeout(() => {
         this.isTransition = !this.isTransition;
-      }, 200);
+      }, 300);
     },
     changeMode() {
       this.mode += 1;
