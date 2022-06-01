@@ -59,36 +59,35 @@ export default {
             result.data.result.forEach((ele) => {
               this.recommendList.push(ele);
             });
-            
+
             this.isSuccess = false;
           } else {
-            
           }
         })
         .catch((err) => {
           Toast.clear();
         });
-      this.axios({
-        url: "personalized",
-        methods: "get",
-        params: {
-          limit: this.limit,
-        },
-      })
-        .then((result) => {
-          if (result.status == 200) {
-            result.data.result.forEach((ele) => {
-              this.recommendList.push(ele);
-            });
-            
-            this.isSuccess = false;
-          } else {
-            
-          }
-        })
-        .catch((err) => {
-          Toast.clear();
-        });
+      // this.axios({
+      //   url: "personalized",
+      //   methods: "get",
+      //   params: {
+      //     limit: this.limit,
+      //   },
+      // })
+      //   .then((result) => {
+      //     if (result.status == 200) {
+      //       result.data.result.forEach((ele) => {
+      //         this.recommendList.push(ele);
+      //       });
+
+      //       this.isSuccess = false;
+      //     } else {
+
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     Toast.clear();
+      //   });
     },
     // 点击返回按钮
     onClickLeft() {

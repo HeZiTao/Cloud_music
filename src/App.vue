@@ -82,28 +82,31 @@ export default {
       let audio = this.$refs.audio;
       let cookie = localStorage.getItem("userCookie");
       audio.src = "";
-      this.axios({
-        url: `song/url`,
-        method: "get",
-        //参数
-        params: {
-          id: this.nowPlaySongId,
-          cookie: cookie,
-        },
-      })
-        .then((result) => {
-          // status请求成功
-          if (result.status == 200) {
-            if (result.data.code == 200) {
-              audio.src = result.data.data[0].url;
-            }
-          } else {
-            
-          }
-        })
-        .catch((err) => {
-          
-        });
+      //  https://music.163.com/song/media/outer/url?id=id.mp3
+
+      audio.src = `https://music.163.com/song/media/outer/url?id=${this.nowPlaySongId}.mp3`;
+      // this.axios({
+      //   url: `song/url`,
+      //   method: "get",
+      //   //参数
+      //   params: {
+      //     id: this.nowPlaySongId,
+      //     cookie: cookie,
+      //   },
+      // })
+      //   .then((result) => {
+      //     // status请求成功
+      //     if (result.status == 200) {
+      //       if (result.data.code == 200) {
+      //         audio.src = result.data.data[0].url;
+      //       }
+      //     } else {
+
+      //     }
+      //   })
+      //   .catch((err) => {
+
+      //   });
     },
     songTimeupdate(e) {
       let songCurrentTime = e.target.currentTime;

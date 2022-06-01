@@ -178,9 +178,15 @@ export default {
       } else {
         cookie = "";
       }
+      let creativeId = null;
+      if (songlist.creativeId) {
+        creativeId = songlist.creativeId
+      } else { 
+        creativeId = songlist.id
+      }
       this.axios({
         method: "get",
-        url: `playlist/detail?id=${songlist.creativeId + cookie}`,
+        url: `playlist/detail?id=${creativeId + cookie}`,
       })
         .then((result) => {
           // status请求成功
@@ -439,7 +445,8 @@ export default {
         padding: 0 22px;
         box-sizing: border-box;
         .titleImg {
-          width: 50%;
+          width: 156px;
+          height: 156px;
           margin-right: 18px;
           overflow: hidden;
           border-radius: 10px;

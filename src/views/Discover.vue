@@ -64,14 +64,10 @@
               >
                 <van-swipe-item v-for="(a, b) in recommendSongFirst" :key="b">
                   <div class="reItemImg">
-                    <img
-                      class="auto-img"
-                      :src="a.uiElement.image.imageUrl"
-                      alt=""
-                    />
+                    <img class="auto-img" :src="a.picUrl" alt="" />
                   </div>
                   <div class="reItemText">
-                    {{ a.uiElement.mainTitle.title }}
+                    {{ a.name }}
                   </div>
                 </van-swipe-item>
               </van-swipe>
@@ -83,14 +79,10 @@
               @click="songListClick(a)"
             >
               <div class="reItemImg">
-                <img
-                  class="auto-img"
-                  :src="a.uiElement.image.imageUrl"
-                  alt=""
-                />
+                <img class="auto-img" :src="a.picUrl" alt="" />
               </div>
               <div class="reItemText">
-                {{ a.uiElement.mainTitle.title }}
+                {{ a.name }}
               </div>
             </div>
           </div>
@@ -116,9 +108,9 @@
         </div>
       </div>
       <!-- 雷达歌单 -->
-      <Songlist :data="radarData" :dataName="radarDataName" />
+      <Songlist class="bottom" :data="radarData" :dataName="radarDataName" />
       <!-- 热门博客/有声书 -->
-      <div class="newSongDiscAlbum">
+      <!-- <div class="newSongDiscAlbum">
         <div class="generalTop">
           <div class="newSongDiscAlbumTopTitle">
             <div
@@ -232,9 +224,9 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <!-- 云村出品 -->
-      <div class="manufacture">
+      <!-- <div class="manufacture">
         <div class="generalTop">
           <div class="generalTitle">云村出品</div>
           <div class="generalBtn">
@@ -270,9 +262,9 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <!-- 热门话题 -->
-      <div class="hotTopic">
+      <!-- <div class="hotTopic">
         <div class="generalTop">
           <div class="generalTitle">热门话题</div>
         </div>
@@ -308,11 +300,11 @@
             <van-swipe-item></van-swipe-item>
           </van-swipe>
         </div>
-      </div>
+      </div> -->
       <!-- 专属场景歌单 -->
-      <Songlist :data="sceneSong" :dataName="sceneSongName" />
+      <!-- <Songlist :data="sceneSong" :dataName="sceneSongName" /> -->
       <!-- 新歌/新碟/数字专辑 -->
-      <div class="newSongDiscAlbum">
+      <!-- <div class="newSongDiscAlbum">
         <div class="generalTop">
           <div class="newSongDiscAlbumTopTitle">
             <div
@@ -352,11 +344,10 @@
               :data="discAlbum"
             />
           </div>
-          <!-- <Newsongdiscalbum :data="showAllNewSongDiscAlbum" /> -->
         </div>
-      </div>
+      </div> -->
       <!-- 云村日历 -->
-      <div class="calendar">
+      <!-- <div class="calendar">
         <div class="generalTop calendarTop">
           <div class="generalTitle">音乐日历</div>
           <div class="generalBtn">
@@ -390,7 +381,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -434,7 +425,7 @@ export default {
         },
       ],
       // 推荐歌单
-      recommendSongFirst: null,
+      recommendSongFirst: [],
       recommendSong: [],
       // 为您推荐
       songListName: null,
@@ -483,6 +474,7 @@ export default {
   created() {
     this.getBanner();
     this.getDiscover();
+    this.getRecommend();
   },
   activated() {
     // 每次切换页面回来，滚动到原来的位置
@@ -509,14 +501,12 @@ export default {
             // 获取轮播图数据
             this.banner = result.data.banners;
           } else {
-            
           }
         })
         .catch((err) => {});
     },
     // 点击轮播图
     bannerBtn(item) {
-      
       if (item.typeTitle == "新歌首发") {
         this.setNowPlaySongId({
           nowPlaySongId: item.encodeId,
@@ -583,7 +573,6 @@ export default {
                 this.setNowSongListData({ nowSongListItem: nowSongListItem });
               });
             } else {
-              
             }
           })
           .catch((err) => {});
@@ -610,70 +599,97 @@ export default {
         .then((result) => {
           // status请求成功
           if (result.status == 200) {
-            
             Toast.clear();
+            console.log(result.data.data.blocks);
             // 获取推荐歌单
-            result.data.data.blocks[1].creatives.forEach((ele, index) => {
-              if (index == 0) {
-                // 获取推荐歌单第一个数据
-                this.recommendSongFirst = ele.resources;
-              } else {
-                // 获取推荐歌单其余数据
-                this.recommendSong.push(ele);
-              }
-            });
-            //获取为您推荐名称
+            // result.data.data.blocks[0].creatives.forEach((ele, index) => {
+            // if (index == 0) {
+            //   // 获取推荐歌单第一个数据
+            //   this.recommendSongFirst = ele.resources;
+            // } else {
+            // 获取推荐歌单其余数据
+            // ele.resources.forEach(item=>{
+            // this.recommendSong.push(item);
+            // })
+            // }
+            // });
+            // 获取为您推荐名称
             this.songListName =
-              result.data.data.blocks[2].uiElement.subTitle.title;
+              result.data.data.blocks[1].uiElement.subTitle.title;
             //获取为您推荐数据
-            this.songListData = result.data.data.blocks[2].creatives;
-            
-            // 获取新歌/新碟/数字专辑
-            let allNewSongDiscAlbum = result.data.data.blocks[3].creatives;
-            // 获取新歌数据
-            this.newSong = allNewSongDiscAlbum.filter((ele) => {
-              return ele.creativeType == "NEW_SONG_HOMEPAGE";
-            });
-            // 获取新碟数据
-            this.newDisc = allNewSongDiscAlbum.filter((ele) => {
-              return ele.creativeType == "NEW_ALBUM_HOMEPAGE";
-            });
-            // 获取数字专辑数据
-            this.discAlbum = allNewSongDiscAlbum.filter((ele) => {
-              return ele.creativeType == "DIGITAL_ALBUM_HOMEPAGE";
-            });
+            this.songListData = result.data.data.blocks[1].creatives;
+
+            // // 获取新歌/新碟/数字专辑
+            // let allNewSongDiscAlbum = result.data.data.blocks[3].creatives;
+            // // 获取新歌数据
+            // this.newSong = allNewSongDiscAlbum.filter((ele) => {
+            //   return ele.creativeType == "NEW_SONG_HOMEPAGE";
+            // });
+            // // 获取新碟数据
+            // this.newDisc = allNewSongDiscAlbum.filter((ele) => {
+            //   return ele.creativeType == "NEW_ALBUM_HOMEPAGE";
+            // });
+            // // 获取数字专辑数据
+            // this.discAlbum = allNewSongDiscAlbum.filter((ele) => {
+            //   return ele.creativeType == "DIGITAL_ALBUM_HOMEPAGE";
+            // });
             // 获取热门话题数据
-            this.hotTopicData = result.data.data.blocks[4].creatives;
-            //获取云村日历数据
-            this.calendarData = result.data.data.blocks[5].creatives;
+            // this.hotTopicData = result.data.data.blocks[4].creatives;
+            // //获取云村日历数据
+            // this.calendarData = result.data.data.blocks[5].creatives;
             //获取雷达歌单名称
             this.radarDataName =
-              result.data.data.blocks[7].uiElement.subTitle.title;
+              result.data.data.blocks[2].uiElement.subTitle.title;
             // 获取雷达歌单数据
-            this.radarData = result.data.data.blocks[7].creatives;
-            // 获取专属场景名称
-            this.sceneSongName =
-              result.data.data.blocks[8].uiElement.subTitle.title;
-            // 获取专属场景歌单
-            this.sceneSong = result.data.data.blocks[8].creatives;
-            // 获取热门博客数据
-            this.popularPodcastsData =
-              result.data.data.blocks[9].creatives.filter((ele) => {
-                return ele.creativeType == "VOICE_LIST_HOMEPAGE";
-              });
-            // 获取有声书数据
-            this.audioBook = result.data.data.blocks[9].creatives.filter(
-              (ele) => {
-                return ele.creativeType == "PODCAST_LIST_HOMEPAGE";
-              }
-            );
-            // 获取云村出品数据
-            this.manufactureData = result.data.data.blocks[10].creatives;
+            this.radarData = result.data.data.blocks[2].creatives;
+            // // 获取专属场景名称
+            // this.sceneSongName =
+            //   result.data.data.blocks[8].uiElement.subTitle.title;
+            // // 获取专属场景歌单
+            // this.sceneSong = result.data.data.blocks[8].creatives;
+            // // 获取热门博客数据
+            // this.popularPodcastsData =
+            //   result.data.data.blocks[9].creatives.filter((ele) => {
+            //     return ele.creativeType == "VOICE_LIST_HOMEPAGE";
+            //   });
+            // // 获取有声书数据
+            // this.audioBook = result.data.data.blocks[9].creatives.filter(
+            //   (ele) => {
+            //     return ele.creativeType == "PODCAST_LIST_HOMEPAGE";
+            //   }
+            // );
+            // // 获取云村出品数据
+            // this.manufactureData = result.data.data.blocks[10].creatives;
           } else {
-            
           }
         })
         .catch((err) => {});
+    },
+    // 获取推荐歌曲
+    getRecommend() {
+      this.axios({
+        url: "personalized",
+        methods: "get",
+        params: {
+          limit: this.limit,
+        },
+      })
+        .then((result) => {
+          if (result.status == 200) {
+            result.data.result.forEach((ele, index) => {
+              if (index <= 7 && index > 2) {
+                this.recommendSong.push(ele);
+              } else if (index <= 2) {
+                this.recommendSongFirst.push(ele);
+              }
+            });
+            console.log(this.recommendSong);
+          } else {
+          }
+        })
+        .catch((err) => {
+          Toast.clear();
+        });
     },
     // 点击更换新歌/新碟/数字专辑
     changeActiveIndex(a) {
@@ -725,9 +741,7 @@ export default {
       }
     },
     // 点击热门博客/有声书Item
-    hotBlog(a) {
-      
-    },
+    hotBlog(a) {},
     // 页面滚动事件
     handleScroll(e) {
       if (e.target.className == "discoverContent") {
@@ -742,11 +756,12 @@ export default {
           nowSongListItem.push(ele.resourceExtInfo);
         });
       });
-      this.setNowSongListData({ nowSongListItem: nowSongListItem });
+      console.log(nowSongListItem);
+      // this.setNowSongListData({ nowSongListItem: nowSongListItem });
     },
     // 点击歌单/点击云村出品
     songListClick(a) {
-      if (a.creativeId) {
+      if (a.id) {
         this.$router.push({ name: "Songlistall", params: { songlist: a } });
       }
     },
@@ -1081,6 +1096,10 @@ export default {
       }
     }
   }
+}
+
+.bottom {
+  margin-bottom: 36px;
 }
 
 // 搜索框背景颜色
